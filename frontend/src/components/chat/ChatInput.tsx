@@ -181,7 +181,6 @@ export default function ChatInput() {
           >
             ส่ง
           </button>
-
         </div>
 
       </div>

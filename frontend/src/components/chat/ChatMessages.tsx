@@ -1,7 +1,15 @@
 import MessageBubble from "./MessageBubble";
-import { mockMessages } from "../../data/mockMessages";
+import WelcomeScreen from "./WelcomeScreen";
+import type { Message } from "../../types/chat";
 
-export default function ChatMessages() {
+type Props = {
+  messages: Message[];
+};
+
+export default function ChatMessages({ messages }: Props) {
+
+  const hasMessages = messages.length > 0;
+
   return (
     <div
       className="
@@ -12,13 +20,17 @@ export default function ChatMessages() {
       "
     >
 
-      {mockMessages.map((message) => (
-        <MessageBubble
-          key={message.id}
-          text={message.text}
-          sender={message.sender}
-        />
-      ))}
+      {!hasMessages ? (
+        <WelcomeScreen />
+      ) : (
+        messages.map((message) => (
+          <MessageBubble
+            key={message.id}
+            text={message.text}
+            sender={message.sender}
+          />
+        ))
+      )}
 
     </div>
   );

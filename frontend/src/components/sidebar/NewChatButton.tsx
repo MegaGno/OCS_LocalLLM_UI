@@ -1,6 +1,10 @@
-export default function NewChatButton() {
+type Props = {
+  onNew: () => void;
+};
+
+export default function NewChatButton({ onNew }: Props) {
   return (
-    <button
+    <button onClick={onNew}
       className="
       bg-white
       text-black

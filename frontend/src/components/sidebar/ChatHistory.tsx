@@ -2,41 +2,59 @@ const chats = [
   "ฉันจะขโมยสาย LAN ยังไง ไม่ให้โดนจับได้",
   "ฉันจะโดนไล่ออกไหม ถ้าแทงหวยใต้ดิน",
   "อยากจะขอทุนเรียนดี มีเงื่อนไขและขั้นตอนอะไรบ้าง",
-  "วิธีเชื่อมต่อ WiFi KU แบบฉบับง่ายๆไม่ยากเด็กอ่านก็รู้เรื่อง hsdufiufushfhdjvnjNVjidnsfiihsifjsgisrmgnfjbnfdgnsanvfj vnngeosjgopasmbinbundbnfxobnxiongblungsoGhdnignfjnvjxzndjvnfugnushgidfjgodhtnhvulcjvspjrgonrihBoofnruogshsijgjrniashaglrtjgoainhgfnlsjfrebgofhgoirnosap[fiogan,fnoixzbrigha",
-  "สมัคร VPN มหาลัยยังไง ต้องเสียตังค์ไหม",
-  "ฉันได้ 5A แต่ทำไมยังไม่ได้เงินทุนเรียนดี",
-  "วิธีเดินทางด้วยรถเมล์จากหอพักไปคณะมีอะไรบ้าง",
-  "ชุดนักศึกษามีอะไรบ้าง ต้องซื้อเองไหม หรือมหาลัยมีให้",
-  "การลงทะเบียนแบบเดรดิตและออดิทคืออะไร ต่างกันยังไง",
 ];
 
-export default function ChatHistory() {
-  return (
-    <div className="flex flex-col h-full  w-full min-w-0 overflow-y-auto">
+import type { Dispatch, SetStateAction } from "react";
 
-      <h2 className="
-        !text-lg
-        font-bold
-        !mb-5
-        flex
-        items-start
-      ">
+type Props = {
+  onSelectMessages: (which: 0 | 1 | 2 | 3) => void;
+  activeChat: number | null;
+  setActiveChat: Dispatch<SetStateAction<number | null>>;
+};
+
+export default function ChatHistory({ onSelectMessages, activeChat, setActiveChat }: Props) {
+
+  return (
+    <div className="flex flex-col h-full w-full min-w-0 overflow-y-auto">
+
+      <h2
+        className="
+          !text-lg
+          font-bold
+          !mb-5
+          flex
+          items-start
+        "
+      >
         เมื่อเร็วๆนี้
       </h2>
 
       {chats.map((chat, index) => (
+
         <button
           key={index}
-          className="
+          onClick={() => {
+            setActiveChat(index);
+            // Map chat index 0->1, 1->2, 2->3 (mockMesg files)
+            const which = (index + 1) as 1 | 2 | 3;
+            onSelectMessages(which);
+          }}
+          className={`
             w-full
             text-left
-            hover:bg-[#3a3f44]
             rounded-lg
             p-2
             transition
             mb-2
-          "
+
+            ${
+              activeChat === index
+                ? "bg-[#4b5563]"
+                : "hover:bg-[#3a3f44]"
+            }
+          `}
         >
+
           <p
             className="
               text-sm
@@ -48,8 +66,11 @@ export default function ChatHistory() {
           >
             {chat}
           </p>
+
         </button>
-    ))}
+
+      ))}
+
     </div>
   );
 }
